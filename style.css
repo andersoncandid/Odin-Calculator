@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    list-style-type: none;
 }
 
 body {
@@ -9,18 +8,7 @@ body {
     justify-content: center;
 }
 
-.num,
-.operator,
-.function {
-    width: 32px;
-    height: 36px;
-    padding: 10px 14px;
-    text-align: center;
-    font-size: 32px;
-    border: 1px solid;
-    border-radius: 10px;
-}
-
+/* Group Containers */
 .calculator {
     margin: 50px;
     padding: 20px;
@@ -63,19 +51,32 @@ body {
     gap: 5px;
 }
 
-.operator {
-    background-color: peru;
-}
-
 .functions {
     display: flex;
     gap: 5px;
 }
 
-.function {
+/* Buttons */
+.btn {
+    width: 32px;
+    height: 36px;
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 32px;
+    border: 1px solid;
+    border-radius: 10px;
+    box-sizing: inherit;
+}
+
+.btn-op {
+    background-color: peru;
+}
+
+.btn-fc {
     background-color: #444444;
 }
 
+/* Specific Cases */
 .functions .all_clear,
 .clear_entry {
     display: flex;
