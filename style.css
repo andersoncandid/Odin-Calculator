@@ -51,11 +51,6 @@ body {
     gap: 5px;
 }
 
-.functions {
-    display: flex;
-    gap: 5px;
-}
-
 /* Buttons */
 .btn {
     width: 32px;
@@ -68,16 +63,21 @@ body {
     box-sizing: inherit;
 }
 
+.btn:active {
+    transform: translateY(4px);
+}
+
 .btn-op {
     background-color: peru;
 }
 
-.btn-fc {
+.btn-cl,
+.equal {
     background-color: #444444;
 }
 
 /* Specific Cases */
-.functions .all_clear,
+.all_clear,
 .clear_entry {
     display: flex;
     align-items: center;
