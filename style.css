@@ -72,13 +72,13 @@ body {
 }
 
 .btn-cl,
-.equal {
+#equal {
     background-color: #444444;
 }
 
 /* Specific Cases */
-.all_clear,
-.clear_entry {
+#all_clear,
+#clear_entry {
     display: flex;
     align-items: center;
     font-size: 24px;
