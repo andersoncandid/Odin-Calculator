@@ -63,7 +63,11 @@ body {
     box-sizing: inherit;
 }
 
-.btn:active {
+.btn-press:active {
+    transform: translateY(4px);
+}
+
+.btn-op-active {
     transform: translateY(4px);
 }
 
