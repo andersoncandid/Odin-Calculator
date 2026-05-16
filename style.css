@@ -63,11 +63,7 @@ body {
     box-sizing: inherit;
 }
 
-.btn-press:active {
-    transform: translateY(4px);
-}
-
-.btn-op-active {
+.btn:active {
     transform: translateY(4px);
 }
 
@@ -83,6 +79,7 @@ body {
 #all_clear,
 #clear_entry {
     display: flex;
+    justify-content: center;
     align-items: center;
     font-size: 24px;
 }

@@ -1,12 +1,34 @@
-function operate(lastNumber, lastNumber, operator) {
+function operate(lastNumber, nextNumber, operator) {
+    const num1 = parseFloat(lastNumber);
+    const num2 = parseFloat(nextNumber);
+    let solution = 0;
 
+    switch (operator) {
+        case 'add':
+            solution = num1 + num2;
+            break;
+        case 'sub':
+            solution = num1 - num2;
+            break;
+        case 'mult':
+            solution = num1 * num2;
+            break;
+        case 'div':
+            if (num2 === 0) {
+                return 'Error: divide by zero';
+            }
+            solution = num1 / num2;
+            break;
+    }
+    return Math.round(solution * 100) / 100;
 }
 
 let input = '';
-let nextNumber = '';
-let lastNumber = '';
+let nextNum = '';
+let lastNum = '';
 let operator = '';
-let operatorActive;
+let result;
+let enterEqual;
 
 const display = document.querySelector('.display');
 const keys = document.querySelector('.keys');
@@ -14,22 +36,27 @@ const keys = document.querySelector('.keys');
 keys.addEventListener('mousedown', function (e) {
     const target = e.target;
 
+    // Ignore clicks outside of buttons
     if (target.tagName != 'BUTTON') {
         return;
     }
 
-    // Click on number keys
+    // Enter numbers keys
     if (target.className.includes('btn-num')) {
         const targetContent = e.target.textContent;
-        const displayContent = display.textContent;
+
+        // Prevent more than one decimal separator
+        if (target.id === 'dot' && input.includes('.')) {
+            return;
+        }
 
         if (target.id === 'negative') {
             // Ignore negative zero
             if (input === '') {
                 return;
             }
-            const negativeNum = parseInt(input) * -1;
-            input = negativeNum + '';
+            const negativeNum = parseFloat(input) * -1;
+            input = String(negativeNum);
         } else {
             input += targetContent;
         }
@@ -43,39 +70,43 @@ keys.addEventListener('mousedown', function (e) {
         display.textContent = input;
     }
 
+    // Enter operators keys
     if (target.className.includes('btn-op')) {
-        // Default initial value
-        if (input === '') {
-            nextNumber = '0';
-        }
-
-        if (target.id === '=') {
-            operate();
-            operatorActive.classList.remove('btn-op-active');
-        }
-
-        // Accept only one operator at a time
-        if (operator != '') {
-            return;
-        }
-        // Visual style for activated button
-        target.classList.add('btn-op-active');
-        operatorActive = keys.querySelector('.btn-op-active');
-
-        operator = target.id;
-
-        // First entry
-        if (nextNumber === '') {
-            nextNumber = input;
-            input = '';
-            return;
-        } else {
-            lastNumber = nextNumber;
-            nextNumber = input;
-            input = '';
+        if (input === '' && nextNum === '' && lastNum === '') {
             return;
         }
 
-        // display.textContent = lastNumber;
+        // Store input in variables
+        if (input != '') {
+            if (nextNum != '') {
+                lastNum = nextNum;
+            }
+            nextNum = input;
+        }
+
+        // Validates the values, if all exist
+        if (lastNum != '' && nextNum != '' && operator != '') {
+            result = operate(lastNum, nextNum, operator);
+            lastNum = nextNum;
+            nextNum = String(result);
+            display.textContent = result;
+        }
+
+        // Store entry operator
+        if (target.id != 'equal') {
+            operator = target.id;
+        }
+        input = '';
+    }
+
+    if (target.className.includes('btn-cl')) {
+        if (target.id === 'all_clear') {
+            nextNum = '';
+            lastNum = '';
+            operator = '';
+            result = '';
+        }
+        input = '';
+        display.textContent = '0';
     }
 });
