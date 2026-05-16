@@ -28,12 +28,11 @@ let nextNum = '';
 let lastNum = '';
 let operator = '';
 let result;
-let enterEqual;
+let enterEqual = false;
 
 const display = document.querySelector('.display');
-const keys = document.querySelector('.keys');
 
-keys.addEventListener('mousedown', function (e) {
+function calculator(e) {
     const target = e.target;
 
     // Ignore clicks outside of buttons
@@ -41,19 +40,30 @@ keys.addEventListener('mousedown', function (e) {
         return;
     }
 
+    // Reset operation after '=' followed by new entry
+    if (
+        enterEqual &&
+        target.id != 'equal' &&
+        !target.className.includes('btn-cl')
+    ) {
+        lastNum = nextNum;
+        nextNum = '';
+        operator = '';
+    }
+
     // Enter numbers keys
     if (target.className.includes('btn-num')) {
         const targetContent = e.target.textContent;
 
         // Prevent more than one decimal separator
-        if (target.id === 'dot' && input.includes('.')) {
+        if (target.id === 'dot' && (input.includes('.') || input === '')) {
             return;
         }
 
         if (target.id === 'negative') {
             // Ignore negative zero
             if (input === '') {
-                return;
+                input = display.textContent;
             }
             const negativeNum = parseFloat(input) * -1;
             input = String(negativeNum);
@@ -62,7 +72,7 @@ keys.addEventListener('mousedown', function (e) {
         }
 
         // Limit length to 18 (max display size)
-        if (input.length >= 18) {
+        if (input.length >= 18 && display.textContent.length >= 18) {
             alert('Maximum number size reached!');
             return;
         }
@@ -95,6 +105,9 @@ keys.addEventListener('mousedown', function (e) {
         // Store entry operator
         if (target.id != 'equal') {
             operator = target.id;
+            enterEqual = false;
+        } else if (lastNum != '') {
+            enterEqual = true;
         }
         input = '';
     }
@@ -107,6 +120,10 @@ keys.addEventListener('mousedown', function (e) {
             result = '';
         }
         input = '';
-        display.textContent = '0';
+        display.textContent = '';
     }
-});
+}
+
+const keys = document.querySelector('.keys');
+
+keys.addEventListener('mousedown', calculator);
